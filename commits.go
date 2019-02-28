@@ -34,29 +34,29 @@ type CommitsService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/commits.html
 type Commit struct {
-	ID             string           `json:"id"`
-	ShortID        string           `json:"short_id"`
-	Title          string           `json:"title"`
-	AuthorName     string           `json:"author_name"`
-	AuthorEmail    string           `json:"author_email"`
-	AuthoredDate   *time.Time       `json:"authored_date"`
-	CommitterName  string           `json:"committer_name"`
-	CommitterEmail string           `json:"committer_email"`
-	CommittedDate  *time.Time       `json:"committed_date"`
-	CreatedAt      *time.Time       `json:"created_at"`
-	Message        string           `json:"message"`
-	ParentIDs      []string         `json:"parent_ids"`
-	Stats          *CommitStats     `json:"stats"`
-	Status         *BuildStateValue `json:"status"`
+	ID             string           `bson:"id" json:"id"`
+	ShortID        string           `bson:"short_id" json:"short_id"`
+	Title          string           `bson:"title" json:"title"`
+	AuthorName     string           `bson:"author_name" json:"author_name"`
+	AuthorEmail    string           `bson:"author_email" json:"author_email"`
+	AuthoredDate   *time.Time       `bson:"authored_date" json:"authored_date"`
+	CommitterName  string           `bson:"committer_name" json:"committer_name"`
+	CommitterEmail string           `bson:"committer_email" json:"committer_email"`
+	CommittedDate  *time.Time       `bson:"committed_date" json:"committed_date"`
+	CreatedAt      *time.Time       `bson:"created_at" json:"created_at"`
+	Message        string           `bson:"message" json:"message"`
+	ParentIDs      []string         `bson:"parent_ids" json:"parent_ids"`
+	Stats          *CommitStats     `bson:"stats" json:"stats"`
+	Status         *BuildStateValue `bson:"status" json:"status"`
 }
 
 // CommitStats represents the number of added and deleted files in a commit.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/commits.html
 type CommitStats struct {
-	Additions int `json:"additions"`
-	Deletions int `json:"deletions"`
-	Total     int `json:"total"`
+	Additions int `bson:"additions" json:"additions"`
+	Deletions int `bson:"deletions" json:"deletions"`
+	Total     int `bson:"total" json:"total"`
 }
 
 func (c Commit) String() string {
@@ -68,12 +68,12 @@ func (c Commit) String() string {
 // GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#list-repository-commits
 type ListCommitsOptions struct {
 	ListOptions
-	RefName   *string    `url:"ref_name,omitempty" json:"ref_name,omitempty"`
-	Since     *time.Time `url:"since,omitempty" json:"since,omitempty"`
-	Until     *time.Time `url:"until,omitempty" json:"until,omitempty"`
-	Path      *string    `url:"path,omitempty" json:"path,omitempty"`
-	All       *bool      `url:"all,omitempty" json:"all,omitempty"`
-	WithStats *bool      `url:"with_stats,omitempty" json:"with_stats,omitempty"`
+	RefName   *string    `url:"ref_name,omitempty" bson:"ref_name,omitempty" json:"ref_name,omitempty"`
+	Since     *time.Time `url:"since,omitempty" bson:"since,omitempty" json:"since,omitempty"`
+	Until     *time.Time `url:"until,omitempty" bson:"until,omitempty" json:"until,omitempty"`
+	Path      *string    `url:"path,omitempty" bson:"path,omitempty" json:"path,omitempty"`
+	All       *bool      `url:"all,omitempty" bson:"all,omitempty" json:"all,omitempty"`
+	WithStats *bool      `url:"with_stats,omitempty" bson:"with_stats,omitempty" json:"with_stats,omitempty"`
 }
 
 // ListCommits gets a list of repository commits in a project.
@@ -115,11 +115,11 @@ const (
 
 // CommitAction represents a single file action within a commit.
 type CommitAction struct {
-	Action       FileAction `url:"action" json:"action"`
-	FilePath     string     `url:"file_path" json:"file_path"`
-	PreviousPath string     `url:"previous_path,omitempty" json:"previous_path,omitempty"`
-	Content      string     `url:"content,omitempty" json:"content,omitempty"`
-	Encoding     string     `url:"encoding,omitempty" json:"encoding,omitempty"`
+	Action       FileAction `url:"action" bson:"action" json:"action"`
+	FilePath     string     `url:"file_path" bson:"file_path" json:"file_path"`
+	PreviousPath string     `url:"previous_path,omitempty" bson:"previous_path,omitempty" json:"previous_path,omitempty"`
+	Content      string     `url:"content,omitempty" bson:"content,omitempty" json:"content,omitempty"`
+	Encoding     string     `url:"encoding,omitempty" bson:"encoding,omitempty" json:"encoding,omitempty"`
 }
 
 // CommitRef represents the reference of branches/tags in a commit.
@@ -127,8 +127,8 @@ type CommitAction struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/commits.html#get-references-a-commit-is-pushed-to
 type CommitRef struct {
-	Type string `json:"type"`
-	Name string `json:"name"`
+	Type string `bson:"type" json:"type"`
+	Name string `bson:"name" json:"name"`
 }
 
 // GetCommitRefsOptions represents the available GetCommitRefs() options.
@@ -137,7 +137,7 @@ type CommitRef struct {
 // https://docs.gitlab.com/ce/api/commits.html#get-references-a-commit-is-pushed-to
 type GetCommitRefsOptions struct {
 	ListOptions
-	Type *string `url:"type,omitempty" json:"type,omitempty"`
+	Type *string `url:"type,omitempty" bson:"type,omitempty" json:"type,omitempty"`
 }
 
 // GetCommitRefs gets all references (from branches or tags) a commit is pushed to
@@ -194,12 +194,12 @@ func (s *CommitsService) GetCommit(pid interface{}, sha string, options ...Optio
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#create-a-commit-with-multiple-files-and-actions
 type CreateCommitOptions struct {
-	Branch        *string         `url:"branch" json:"branch"`
-	CommitMessage *string         `url:"commit_message" json:"commit_message"`
-	StartBranch   *string         `url:"start_branch,omitempty" json:"start_branch,omitempty"`
-	Actions       []*CommitAction `url:"actions" json:"actions"`
-	AuthorEmail   *string         `url:"author_email,omitempty" json:"author_email,omitempty"`
-	AuthorName    *string         `url:"author_name,omitempty" json:"author_name,omitempty"`
+	Branch        *string         `url:"branch" bson:"branch" json:"branch"`
+	CommitMessage *string         `url:"commit_message" bson:"commit_message" json:"commit_message"`
+	StartBranch   *string         `url:"start_branch,omitempty" bson:"start_branch,omitempty" json:"start_branch,omitempty"`
+	Actions       []*CommitAction `url:"actions" bson:"actions" json:"actions"`
+	AuthorEmail   *string         `url:"author_email,omitempty" bson:"author_email,omitempty" json:"author_email,omitempty"`
+	AuthorName    *string         `url:"author_name,omitempty" bson:"author_name,omitempty" json:"author_name,omitempty"`
 }
 
 // CreateCommit creates a commit with multiple files and actions.
@@ -230,14 +230,14 @@ func (s *CommitsService) CreateCommit(pid interface{}, opt *CreateCommitOptions,
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/commits.html
 type Diff struct {
-	Diff        string `json:"diff"`
-	NewPath     string `json:"new_path"`
-	OldPath     string `json:"old_path"`
-	AMode       string `json:"a_mode"`
-	BMode       string `json:"b_mode"`
-	NewFile     bool   `json:"new_file"`
-	RenamedFile bool   `json:"renamed_file"`
-	DeletedFile bool   `json:"deleted_file"`
+	Diff        string `bson:"diff" json:"diff"`
+	NewPath     string `bson:"new_path" json:"new_path"`
+	OldPath     string `bson:"old_path" json:"old_path"`
+	AMode       string `bson:"a_mode" json:"a_mode"`
+	BMode       string `bson:"b_mode" json:"b_mode"`
+	NewFile     bool   `bson:"new_file" json:"new_file"`
+	RenamedFile bool   `bson:"renamed_file" json:"renamed_file"`
+	DeletedFile bool   `bson:"deleted_file" json:"deleted_file"`
 }
 
 func (d Diff) String() string {
@@ -279,22 +279,22 @@ func (s *CommitsService) GetCommitDiff(pid interface{}, sha string, opt *GetComm
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/commits.html
 type CommitComment struct {
-	Note     string `json:"note"`
-	Path     string `json:"path"`
-	Line     int    `json:"line"`
-	LineType string `json:"line_type"`
-	Author   Author `json:"author"`
+	Note     string `bson:"note" json:"note"`
+	Path     string `bson:"path" json:"path"`
+	Line     int    `bson:"line" json:"line"`
+	LineType string `bson:"line_type" json:"line_type"`
+	Author   Author `bson:"author" json:"author"`
 }
 
 // Author represents a GitLab commit author
 type Author struct {
-	ID        int        `json:"id"`
-	Username  string     `json:"username"`
-	Email     string     `json:"email"`
-	Name      string     `json:"name"`
-	State     string     `json:"state"`
-	Blocked   bool       `json:"blocked"`
-	CreatedAt *time.Time `json:"created_at"`
+	ID        int        `bson:"id" json:"id"`
+	Username  string     `bson:"username" json:"username"`
+	Email     string     `bson:"email" json:"email"`
+	Name      string     `bson:"name" json:"name"`
+	State     string     `bson:"state" json:"state"`
+	Blocked   bool       `bson:"blocked" json:"blocked"`
+	CreatedAt *time.Time `bson:"created_at" json:"created_at"`
 }
 
 func (c CommitComment) String() string {
@@ -338,10 +338,10 @@ func (s *CommitsService) GetCommitComments(pid interface{}, sha string, opt *Get
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/commits.html#post-comment-to-commit
 type PostCommitCommentOptions struct {
-	Note     *string `url:"note,omitempty" json:"note,omitempty"`
-	Path     *string `url:"path" json:"path"`
-	Line     *int    `url:"line" json:"line"`
-	LineType *string `url:"line_type" json:"line_type"`
+	Note     *string `url:"note,omitempty" bson:"note,omitempty" json:"note,omitempty"`
+	Path     *string `url:"path" bson:"path" json:"path"`
+	Line     *int    `url:"line" bson:"line" json:"line"`
+	LineType *string `url:"line_type" bson:"line_type" json:"line_type"`
 }
 
 // PostCommitComment adds a comment to a commit. Optionally you can post
@@ -376,27 +376,27 @@ func (s *CommitsService) PostCommitComment(pid interface{}, sha string, opt *Pos
 // GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#get-the-status-of-a-commit
 type GetCommitStatusesOptions struct {
 	ListOptions
-	Ref   *string `url:"ref,omitempty" json:"ref,omitempty"`
-	Stage *string `url:"stage,omitempty" json:"stage,omitempty"`
-	Name  *string `url:"name,omitempty" json:"name,omitempty"`
-	All   *bool   `url:"all,omitempty" json:"all,omitempty"`
+	Ref   *string `url:"ref,omitempty" bson:"ref,omitempty" json:"ref,omitempty"`
+	Stage *string `url:"stage,omitempty" bson:"stage,omitempty" json:"stage,omitempty"`
+	Name  *string `url:"name,omitempty" bson:"name,omitempty" json:"name,omitempty"`
+	All   *bool   `url:"all,omitempty" bson:"all,omitempty" json:"all,omitempty"`
 }
 
 // CommitStatus represents a GitLab commit status.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#get-the-status-of-a-commit
 type CommitStatus struct {
-	ID          int        `json:"id"`
-	SHA         string     `json:"sha"`
-	Ref         string     `json:"ref"`
-	Status      string     `json:"status"`
-	Name        string     `json:"name"`
-	TargetURL   string     `json:"target_url"`
-	Description string     `json:"description"`
-	CreatedAt   *time.Time `json:"created_at"`
-	StartedAt   *time.Time `json:"started_at"`
-	FinishedAt  *time.Time `json:"finished_at"`
-	Author      Author     `json:"author"`
+	ID          int        `bson:"id" json:"id"`
+	SHA         string     `bson:"sha" json:"sha"`
+	Ref         string     `bson:"ref" json:"ref"`
+	Status      string     `bson:"status" json:"status"`
+	Name        string     `bson:"name" json:"name"`
+	TargetURL   string     `bson:"target_url" json:"target_url"`
+	Description string     `bson:"description" json:"description"`
+	CreatedAt   *time.Time `bson:"created_at" json:"created_at"`
+	StartedAt   *time.Time `bson:"started_at" json:"started_at"`
+	FinishedAt  *time.Time `bson:"finished_at" json:"finished_at"`
+	Author      Author     `bson:"author" json:"author"`
 }
 
 // GetCommitStatuses gets the statuses of a commit in a project.
@@ -427,12 +427,12 @@ func (s *CommitsService) GetCommitStatuses(pid interface{}, sha string, opt *Get
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#post-the-status-to-commit
 type SetCommitStatusOptions struct {
-	State       BuildStateValue `url:"state" json:"state"`
-	Ref         *string         `url:"ref,omitempty" json:"ref,omitempty"`
-	Name        *string         `url:"name,omitempty" json:"name,omitempty"`
-	Context     *string         `url:"context,omitempty" json:"context,omitempty"`
-	TargetURL   *string         `url:"target_url,omitempty" json:"target_url,omitempty"`
-	Description *string         `url:"description,omitempty" json:"description,omitempty"`
+	State       BuildStateValue `url:"state" bson:"state" json:"state"`
+	Ref         *string         `url:"ref,omitempty" bson:"ref,omitempty" json:"ref,omitempty"`
+	Name        *string         `url:"name,omitempty" bson:"name,omitempty" json:"name,omitempty"`
+	Context     *string         `url:"context,omitempty" bson:"context,omitempty" json:"context,omitempty"`
+	TargetURL   *string         `url:"target_url,omitempty" bson:"target_url,omitempty" json:"target_url,omitempty"`
+	Description *string         `url:"description,omitempty" bson:"description,omitempty" json:"description,omitempty"`
 }
 
 // SetCommitStatus sets the status of a commit in a project.
@@ -489,7 +489,7 @@ func (s *CommitsService) GetMergeRequestsByCommit(pid interface{}, sha string, o
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#cherry-pick-a-commit
 type CherryPickCommitOptions struct {
-	TargetBranch *string `url:"branch" json:"branch,omitempty"`
+	TargetBranch *string `url:"branch" bson:"branch,omitempty" json:"branch,omitempty"`
 }
 
 // CherryPickCommit sherry picks a commit to a given branch.

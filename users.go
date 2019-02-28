@@ -34,45 +34,45 @@ type UsersService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/users.html
 type User struct {
-	ID                        int                `json:"id"`
-	Username                  string             `json:"username"`
-	Email                     string             `json:"email"`
-	Name                      string             `json:"name"`
-	State                     string             `json:"state"`
-	CreatedAt                 *time.Time         `json:"created_at"`
-	Bio                       string             `json:"bio"`
-	Location                  string             `json:"location"`
-	PublicEmail               string             `json:"public_email"`
-	Skype                     string             `json:"skype"`
-	Linkedin                  string             `json:"linkedin"`
-	Twitter                   string             `json:"twitter"`
-	WebsiteURL                string             `json:"website_url"`
-	Organization              string             `json:"organization"`
-	ExternUID                 string             `json:"extern_uid"`
-	Provider                  string             `json:"provider"`
-	ThemeID                   int                `json:"theme_id"`
-	LastActivityOn            *ISOTime           `json:"last_activity_on"`
-	ColorSchemeID             int                `json:"color_scheme_id"`
-	IsAdmin                   bool               `json:"is_admin"`
-	AvatarURL                 string             `json:"avatar_url"`
-	CanCreateGroup            bool               `json:"can_create_group"`
-	CanCreateProject          bool               `json:"can_create_project"`
-	ProjectsLimit             int                `json:"projects_limit"`
-	CurrentSignInAt           *time.Time         `json:"current_sign_in_at"`
-	LastSignInAt              *time.Time         `json:"last_sign_in_at"`
-	ConfirmedAt               *time.Time         `json:"confirmed_at"`
-	TwoFactorEnabled          bool               `json:"two_factor_enabled"`
-	Identities                []*UserIdentity    `json:"identities"`
-	External                  bool               `json:"external"`
-	PrivateProfile            bool               `json:"private_profile"`
-	SharedRunnersMinutesLimit int                `json:"shared_runners_minutes_limit"`
-	CustomAttributes          []*CustomAttribute `json:"custom_attributes"`
+	ID                        int                `bson:"id" json:"id"`
+	Username                  string             `bson:"username" json:"username"`
+	Email                     string             `bson:"email" json:"email"`
+	Name                      string             `bson:"name" json:"name"`
+	State                     string             `bson:"state" json:"state"`
+	CreatedAt                 *time.Time         `bson:"created_at" json:"created_at"`
+	Bio                       string             `bson:"bio" json:"bio"`
+	Location                  string             `bson:"location" json:"location"`
+	PublicEmail               string             `bson:"public_email" json:"public_email"`
+	Skype                     string             `bson:"skype" json:"skype"`
+	Linkedin                  string             `bson:"linkedin" json:"linkedin"`
+	Twitter                   string             `bson:"twitter" json:"twitter"`
+	WebsiteURL                string             `bson:"website_url" json:"website_url"`
+	Organization              string             `bson:"organization" json:"organization"`
+	ExternUID                 string             `bson:"extern_uid" json:"extern_uid"`
+	Provider                  string             `bson:"provider" json:"provider"`
+	ThemeID                   int                `bson:"theme_id" json:"theme_id"`
+	LastActivityOn            *ISOTime           `bson:"last_activity_on" json:"last_activity_on"`
+	ColorSchemeID             int                `bson:"color_scheme_id" json:"color_scheme_id"`
+	IsAdmin                   bool               `bson:"is_admin" json:"is_admin"`
+	AvatarURL                 string             `bson:"avatar_url" json:"avatar_url"`
+	CanCreateGroup            bool               `bson:"can_create_group" json:"can_create_group"`
+	CanCreateProject          bool               `bson:"can_create_project" json:"can_create_project"`
+	ProjectsLimit             int                `bson:"projects_limit" json:"projects_limit"`
+	CurrentSignInAt           *time.Time         `bson:"current_sign_in_at" json:"current_sign_in_at"`
+	LastSignInAt              *time.Time         `bson:"last_sign_in_at" json:"last_sign_in_at"`
+	ConfirmedAt               *time.Time         `bson:"confirmed_at" json:"confirmed_at"`
+	TwoFactorEnabled          bool               `bson:"two_factor_enabled" json:"two_factor_enabled"`
+	Identities                []*UserIdentity    `bson:"identities" json:"identities"`
+	External                  bool               `bson:"external" json:"external"`
+	PrivateProfile            bool               `bson:"private_profile" json:"private_profile"`
+	SharedRunnersMinutesLimit int                `bson:"shared_runners_minutes_limit" json:"shared_runners_minutes_limit"`
+	CustomAttributes          []*CustomAttribute `bson:"custom_attributes" json:"custom_attributes"`
 }
 
 // UserIdentity represents a user identity.
 type UserIdentity struct {
-	Provider  string `json:"provider"`
-	ExternUID string `json:"extern_uid"`
+	Provider  string `bson:"provider" json:"provider"`
+	ExternUID string `bson:"extern_uid" json:"extern_uid"`
 }
 
 // ListUsersOptions represents the available ListUsers() options.
@@ -80,19 +80,19 @@ type UserIdentity struct {
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#list-users
 type ListUsersOptions struct {
 	ListOptions
-	Active  *bool `url:"active,omitempty" json:"active,omitempty"`
-	Blocked *bool `url:"blocked,omitempty" json:"blocked,omitempty"`
+	Active  *bool `url:"active,omitempty" bson:"active,omitempty" json:"active,omitempty"`
+	Blocked *bool `url:"blocked,omitempty" bson:"blocked,omitempty" json:"blocked,omitempty"`
 
 	// The options below are only available for admins.
-	Search               *string    `url:"search,omitempty" json:"search,omitempty"`
-	Username             *string    `url:"username,omitempty" json:"username,omitempty"`
-	ExternalUID          *string    `url:"extern_uid,omitempty" json:"extern_uid,omitempty"`
-	Provider             *string    `url:"provider,omitempty" json:"provider,omitempty"`
-	CreatedBefore        *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
-	CreatedAfter         *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
-	OrderBy              *string    `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort                 *string    `url:"sort,omitempty" json:"sort,omitempty"`
-	WithCustomAttributes *bool      `url:"with_custom_attributes,omitempty" json:"with_custom_attributes,omitempty"`
+	Search               *string    `url:"search,omitempty" bson:"search,omitempty" json:"search,omitempty"`
+	Username             *string    `url:"username,omitempty" bson:"username,omitempty" json:"username,omitempty"`
+	ExternalUID          *string    `url:"extern_uid,omitempty" bson:"extern_uid,omitempty" json:"extern_uid,omitempty"`
+	Provider             *string    `url:"provider,omitempty" bson:"provider,omitempty" json:"provider,omitempty"`
+	CreatedBefore        *time.Time `url:"created_before,omitempty" bson:"created_before,omitempty" json:"created_before,omitempty"`
+	CreatedAfter         *time.Time `url:"created_after,omitempty" bson:"created_after,omitempty" json:"created_after,omitempty"`
+	OrderBy              *string    `url:"order_by,omitempty" bson:"order_by,omitempty" json:"order_by,omitempty"`
+	Sort                 *string    `url:"sort,omitempty" bson:"sort,omitempty" json:"sort,omitempty"`
+	WithCustomAttributes *bool      `url:"with_custom_attributes,omitempty" bson:"with_custom_attributes,omitempty" json:"with_custom_attributes,omitempty"`
 }
 
 // ListUsers gets a list of users.
@@ -137,25 +137,25 @@ func (s *UsersService) GetUser(user int, options ...OptionFunc) (*User, *Respons
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#user-creation
 type CreateUserOptions struct {
-	Email            *string `url:"email,omitempty" json:"email,omitempty"`
-	Password         *string `url:"password,omitempty" json:"password,omitempty"`
-	ResetPassword    *bool   `url:"reset_password,omitempty" json:"reset_password,omitempty"`
-	Username         *string `url:"username,omitempty" json:"username,omitempty"`
-	Name             *string `url:"name,omitempty" json:"name,omitempty"`
-	Skype            *string `url:"skype,omitempty" json:"skype,omitempty"`
-	Linkedin         *string `url:"linkedin,omitempty" json:"linkedin,omitempty"`
-	Twitter          *string `url:"twitter,omitempty" json:"twitter,omitempty"`
-	WebsiteURL       *string `url:"website_url,omitempty" json:"website_url,omitempty"`
-	Organization     *string `url:"organization,omitempty" json:"organization,omitempty"`
-	ProjectsLimit    *int    `url:"projects_limit,omitempty" json:"projects_limit,omitempty"`
-	ExternUID        *string `url:"extern_uid,omitempty" json:"extern_uid,omitempty"`
-	Provider         *string `url:"provider,omitempty" json:"provider,omitempty"`
-	Bio              *string `url:"bio,omitempty" json:"bio,omitempty"`
-	Location         *string `url:"location,omitempty" json:"location,omitempty"`
-	Admin            *bool   `url:"admin,omitempty" json:"admin,omitempty"`
-	CanCreateGroup   *bool   `url:"can_create_group,omitempty" json:"can_create_group,omitempty"`
-	SkipConfirmation *bool   `url:"skip_confirmation,omitempty" json:"skip_confirmation,omitempty"`
-	External         *bool   `url:"external,omitempty" json:"external,omitempty"`
+	Email            *string `url:"email,omitempty" bson:"email,omitempty" json:"email,omitempty"`
+	Password         *string `url:"password,omitempty" bson:"password,omitempty" json:"password,omitempty"`
+	ResetPassword    *bool   `url:"reset_password,omitempty" bson:"reset_password,omitempty" json:"reset_password,omitempty"`
+	Username         *string `url:"username,omitempty" bson:"username,omitempty" json:"username,omitempty"`
+	Name             *string `url:"name,omitempty" bson:"name,omitempty" json:"name,omitempty"`
+	Skype            *string `url:"skype,omitempty" bson:"skype,omitempty" json:"skype,omitempty"`
+	Linkedin         *string `url:"linkedin,omitempty" bson:"linkedin,omitempty" json:"linkedin,omitempty"`
+	Twitter          *string `url:"twitter,omitempty" bson:"twitter,omitempty" json:"twitter,omitempty"`
+	WebsiteURL       *string `url:"website_url,omitempty" bson:"website_url,omitempty" json:"website_url,omitempty"`
+	Organization     *string `url:"organization,omitempty" bson:"organization,omitempty" json:"organization,omitempty"`
+	ProjectsLimit    *int    `url:"projects_limit,omitempty" bson:"projects_limit,omitempty" json:"projects_limit,omitempty"`
+	ExternUID        *string `url:"extern_uid,omitempty" bson:"extern_uid,omitempty" json:"extern_uid,omitempty"`
+	Provider         *string `url:"provider,omitempty" bson:"provider,omitempty" json:"provider,omitempty"`
+	Bio              *string `url:"bio,omitempty" bson:"bio,omitempty" json:"bio,omitempty"`
+	Location         *string `url:"location,omitempty" bson:"location,omitempty" json:"location,omitempty"`
+	Admin            *bool   `url:"admin,omitempty" bson:"admin,omitempty" json:"admin,omitempty"`
+	CanCreateGroup   *bool   `url:"can_create_group,omitempty" bson:"can_create_group,omitempty" json:"can_create_group,omitempty"`
+	SkipConfirmation *bool   `url:"skip_confirmation,omitempty" bson:"skip_confirmation,omitempty" json:"skip_confirmation,omitempty"`
+	External         *bool   `url:"external,omitempty" bson:"external,omitempty" json:"external,omitempty"`
 }
 
 // CreateUser creates a new user. Note only administrators can create new users.
@@ -180,24 +180,24 @@ func (s *UsersService) CreateUser(opt *CreateUserOptions, options ...OptionFunc)
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#user-modification
 type ModifyUserOptions struct {
-	Email              *string `url:"email,omitempty" json:"email,omitempty"`
-	Password           *string `url:"password,omitempty" json:"password,omitempty"`
-	Username           *string `url:"username,omitempty" json:"username,omitempty"`
-	Name               *string `url:"name,omitempty" json:"name,omitempty"`
-	Skype              *string `url:"skype,omitempty" json:"skype,omitempty"`
-	Linkedin           *string `url:"linkedin,omitempty" json:"linkedin,omitempty"`
-	Twitter            *string `url:"twitter,omitempty" json:"twitter,omitempty"`
-	WebsiteURL         *string `url:"website_url,omitempty" json:"website_url,omitempty"`
-	Organization       *string `url:"organization,omitempty" json:"organization,omitempty"`
-	ProjectsLimit      *int    `url:"projects_limit,omitempty" json:"projects_limit,omitempty"`
-	ExternUID          *string `url:"extern_uid,omitempty" json:"extern_uid,omitempty"`
-	Provider           *string `url:"provider,omitempty" json:"provider,omitempty"`
-	Bio                *string `url:"bio,omitempty" json:"bio,omitempty"`
-	Location           *string `url:"location,omitempty" json:"location,omitempty"`
-	Admin              *bool   `url:"admin,omitempty" json:"admin,omitempty"`
-	CanCreateGroup     *bool   `url:"can_create_group,omitempty" json:"can_create_group,omitempty"`
-	SkipReconfirmation *bool   `url:"skip_reconfirmation,omitempty" json:"skip_reconfirmation,omitempty"`
-	External           *bool   `url:"external,omitempty" json:"external,omitempty"`
+	Email              *string `url:"email,omitempty" bson:"email,omitempty" json:"email,omitempty"`
+	Password           *string `url:"password,omitempty" bson:"password,omitempty" json:"password,omitempty"`
+	Username           *string `url:"username,omitempty" bson:"username,omitempty" json:"username,omitempty"`
+	Name               *string `url:"name,omitempty" bson:"name,omitempty" json:"name,omitempty"`
+	Skype              *string `url:"skype,omitempty" bson:"skype,omitempty" json:"skype,omitempty"`
+	Linkedin           *string `url:"linkedin,omitempty" bson:"linkedin,omitempty" json:"linkedin,omitempty"`
+	Twitter            *string `url:"twitter,omitempty" bson:"twitter,omitempty" json:"twitter,omitempty"`
+	WebsiteURL         *string `url:"website_url,omitempty" bson:"website_url,omitempty" json:"website_url,omitempty"`
+	Organization       *string `url:"organization,omitempty" bson:"organization,omitempty" json:"organization,omitempty"`
+	ProjectsLimit      *int    `url:"projects_limit,omitempty" bson:"projects_limit,omitempty" json:"projects_limit,omitempty"`
+	ExternUID          *string `url:"extern_uid,omitempty" bson:"extern_uid,omitempty" json:"extern_uid,omitempty"`
+	Provider           *string `url:"provider,omitempty" bson:"provider,omitempty" json:"provider,omitempty"`
+	Bio                *string `url:"bio,omitempty" bson:"bio,omitempty" json:"bio,omitempty"`
+	Location           *string `url:"location,omitempty" bson:"location,omitempty" json:"location,omitempty"`
+	Admin              *bool   `url:"admin,omitempty" bson:"admin,omitempty" json:"admin,omitempty"`
+	CanCreateGroup     *bool   `url:"can_create_group,omitempty" bson:"can_create_group,omitempty" json:"can_create_group,omitempty"`
+	SkipReconfirmation *bool   `url:"skip_reconfirmation,omitempty" bson:"skip_reconfirmation,omitempty" json:"skip_reconfirmation,omitempty"`
+	External           *bool   `url:"external,omitempty" bson:"external,omitempty" json:"external,omitempty"`
 }
 
 // ModifyUser modifies an existing user. Only administrators can change attributes
@@ -261,10 +261,10 @@ func (s *UsersService) CurrentUser(options ...OptionFunc) (*User, *Response, err
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#list-ssh-keys
 type SSHKey struct {
-	ID        int        `json:"id"`
-	Title     string     `json:"title"`
-	Key       string     `json:"key"`
-	CreatedAt *time.Time `json:"created_at"`
+	ID        int        `bson:"id" json:"id"`
+	Title     string     `bson:"title" json:"title"`
+	Key       string     `bson:"key" json:"key"`
+	CreatedAt *time.Time `bson:"created_at" json:"created_at"`
 }
 
 // ListSSHKeys gets a list of currently authenticated user's SSH keys.
@@ -337,8 +337,8 @@ func (s *UsersService) GetSSHKey(key int, options ...OptionFunc) (*SSHKey, *Resp
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#add-ssh-key
 type AddSSHKeyOptions struct {
-	Title *string `url:"title,omitempty" json:"title,omitempty"`
-	Key   *string `url:"key,omitempty" json:"key,omitempty"`
+	Title *string `url:"title,omitempty" bson:"title,omitempty" json:"title,omitempty"`
+	Key   *string `url:"key,omitempty" bson:"key,omitempty" json:"key,omitempty"`
 }
 
 // AddSSHKey creates a new key owned by the currently authenticated user.
@@ -473,8 +473,8 @@ func (s *UsersService) UnblockUser(user int, options ...OptionFunc) error {
 //
 // GitLab API docs: https://doc.gitlab.com/ce/api/users.html#list-emails
 type Email struct {
-	ID    int    `json:"id"`
-	Email string `json:"email"`
+	ID    int    `bson:"id" json:"id"`
+	Email string `bson:"email" json:"email"`
 }
 
 // ListEmails gets a list of currently authenticated user's Emails.
@@ -547,7 +547,7 @@ func (s *UsersService) GetEmail(email int, options ...OptionFunc) (*Email, *Resp
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#add-email
 type AddEmailOptions struct {
-	Email *string `url:"email,omitempty" json:"email,omitempty"`
+	Email *string `url:"email,omitempty" bson:"email,omitempty" json:"email,omitempty"`
 }
 
 // AddEmail creates a new email owned by the currently authenticated user.
@@ -627,14 +627,14 @@ func (s *UsersService) DeleteEmailForUser(user, email int, options ...OptionFunc
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/users.html#get-all-impersonation-tokens-of-a-user
 type ImpersonationToken struct {
-	ID        int        `json:"id"`
-	Name      string     `json:"name"`
-	Active    bool       `json:"active"`
-	Token     string     `json:"token"`
-	Scopes    []string   `json:"scopes"`
-	Revoked   bool       `json:"revoked"`
-	CreatedAt *time.Time `json:"created_at"`
-	ExpiresAt *ISOTime   `json:"expires_at"`
+	ID        int        `bson:"id" json:"id"`
+	Name      string     `bson:"name" json:"name"`
+	Active    bool       `bson:"active" json:"active"`
+	Token     string     `bson:"token" json:"token"`
+	Scopes    []string   `bson:"scopes" json:"scopes"`
+	Revoked   bool       `bson:"revoked" json:"revoked"`
+	CreatedAt *time.Time `bson:"created_at" json:"created_at"`
+	ExpiresAt *ISOTime   `bson:"expires_at" json:"expires_at"`
 }
 
 // GetAllImpersonationTokensOptions represents the available
@@ -644,7 +644,7 @@ type ImpersonationToken struct {
 // https://docs.gitlab.com/ce/api/users.html#get-all-impersonation-tokens-of-a-user
 type GetAllImpersonationTokensOptions struct {
 	ListOptions
-	State *string `url:"state,omitempty" json:"state,omitempty"`
+	State *string `url:"state,omitempty" bson:"state,omitempty" json:"state,omitempty"`
 }
 
 // GetAllImpersonationTokens retrieves all impersonation tokens of a user.
@@ -695,9 +695,9 @@ func (s *UsersService) GetImpersonationToken(user, token int, options ...OptionF
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/users.html#create-an-impersonation-token
 type CreateImpersonationTokenOptions struct {
-	Name      *string    `url:"name,omitempty" json:"name,omitempty"`
-	Scopes    *[]string  `url:"scopes,omitempty" json:"scopes,omitempty"`
-	ExpiresAt *time.Time `url:"expires_at,omitempty" json:"expires_at,omitempty"`
+	Name      *string    `url:"name,omitempty" bson:"name,omitempty" json:"name,omitempty"`
+	Scopes    *[]string  `url:"scopes,omitempty" bson:"scopes,omitempty" json:"scopes,omitempty"`
+	ExpiresAt *time.Time `url:"expires_at,omitempty" bson:"expires_at,omitempty" json:"expires_at,omitempty"`
 }
 
 // CreateImpersonationToken creates an impersonation token.
@@ -741,8 +741,8 @@ func (s *UsersService) RevokeImpersonationToken(user, token int, options ...Opti
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/users.html#get-user-activities-admin-only
 type UserActivity struct {
-	Username       string   `json:"username"`
-	LastActivityOn *ISOTime `json:"last_activity_on"`
+	Username       string   `bson:"username" json:"username"`
+	LastActivityOn *ISOTime `bson:"last_activity_on" json:"last_activity_on"`
 }
 
 // GetUserActivitiesOptions represents the options for GetUserActivities
@@ -750,7 +750,7 @@ type UserActivity struct {
 // GitLap API docs:
 // https://docs.gitlab.com/ce/api/users.html#get-user-activities-admin-only
 type GetUserActivitiesOptions struct {
-	From *ISOTime `url:"from,omitempty" json:"from,omitempty"`
+	From *ISOTime `url:"from,omitempty" bson:"from,omitempty" json:"from,omitempty"`
 }
 
 // GetUserActivities retrieves user activities (admin only)
@@ -777,9 +777,9 @@ func (s *UsersService) GetUserActivities(opt *GetUserActivitiesOptions, options 
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/users.html#user-status
 type UserStatus struct {
-	Emoji       string `json:"emoji"`
-	Message     string `json:"message"`
-	MessageHTML string `json:"message_html"`
+	Emoji       string `bson:"emoji" json:"emoji"`
+	Message     string `bson:"message" json:"message"`
+	MessageHTML string `bson:"message_html" json:"message_html"`
 }
 
 // CurrentUserStatus retrieves the user status
@@ -827,8 +827,8 @@ func (s *UsersService) GetUserStatus(user int, options ...OptionFunc) (*UserStat
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/users.html#set-user-status
 type UserStatusOptions struct {
-	Emoji   *string `url:"emoji,omitempty" json:"emoji,omitempty"`
-	Message *string `url:"message,omitempty" json:"message,omitempty"`
+	Emoji   *string `url:"emoji,omitempty" bson:"emoji,omitempty" json:"emoji,omitempty"`
+	Message *string `url:"message,omitempty" bson:"message,omitempty" json:"message,omitempty"`
 }
 
 // SetUserStatus sets the user's status

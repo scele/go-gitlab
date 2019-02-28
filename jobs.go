@@ -36,42 +36,42 @@ type JobsService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/jobs.html
 type Job struct {
-	Commit        *Commit    `json:"commit"`
-	CreatedAt     *time.Time `json:"created_at"`
-	Coverage      float64    `json:"coverage"`
+	Commit        *Commit    `bson:"commit" json:"commit"`
+	CreatedAt     *time.Time `bson:"created_at" json:"created_at"`
+	Coverage      float64    `bson:"coverage" json:"coverage"`
 	ArtifactsFile struct {
-		Filename string `json:"filename"`
-		Size     int    `json:"size"`
-	} `json:"artifacts_file"`
-	FinishedAt *time.Time `json:"finished_at"`
-	ID         int        `json:"id"`
-	Name       string     `json:"name"`
+		Filename string `bson:"filename" json:"filename"`
+		Size     int    `bson:"size" json:"size"`
+	} `bson:"artifacts_file" json:"artifacts_file"`
+	FinishedAt *time.Time `bson:"finished_at" json:"finished_at"`
+	ID         int        `bson:"id" json:"id"`
+	Name       string     `bson:"name" json:"name"`
 	Pipeline   struct {
-		ID     int    `json:"id"`
-		Ref    string `json:"ref"`
-		Sha    string `json:"sha"`
-		Status string `json:"status"`
-	} `json:"pipeline"`
-	Ref    string `json:"ref"`
+		ID     int    `bson:"id" json:"id"`
+		Ref    string `bson:"ref" json:"ref"`
+		Sha    string `bson:"sha" json:"sha"`
+		Status string `bson:"status" json:"status"`
+	} `bson:"pipeline" json:"pipeline"`
+	Ref    string `bson:"ref" json:"ref"`
 	Runner struct {
-		ID          int    `json:"id"`
-		Description string `json:"description"`
-		Active      bool   `json:"active"`
-		IsShared    bool   `json:"is_shared"`
-		Name        string `json:"name"`
-	} `json:"runner"`
-	Stage     string     `json:"stage"`
-	StartedAt *time.Time `json:"started_at"`
-	Status    string     `json:"status"`
-	Tag       bool       `json:"tag"`
-	User      *User      `json:"user"`
-	WebURL    string     `json:"web_url"`
+		ID          int    `bson:"id" json:"id"`
+		Description string `bson:"description" json:"description"`
+		Active      bool   `bson:"active" json:"active"`
+		IsShared    bool   `bson:"is_shared" json:"is_shared"`
+		Name        string `bson:"name" json:"name"`
+	} `bson:"runner" json:"runner"`
+	Stage     string     `bson:"stage" json:"stage"`
+	StartedAt *time.Time `bson:"started_at" json:"started_at"`
+	Status    string     `bson:"status" json:"status"`
+	Tag       bool       `bson:"tag" json:"tag"`
+	User      *User      `bson:"user" json:"user"`
+	WebURL    string     `bson:"web_url" json:"web_url"`
 }
 
 // ListJobsOptions are options for two list apis
 type ListJobsOptions struct {
 	ListOptions
-	Scope []BuildStateValue `url:"scope,omitempty" json:"scope,omitempty"`
+	Scope []BuildStateValue `url:"scope,omitempty" bson:"scope,omitempty" json:"scope,omitempty"`
 }
 
 // ListProjectJobs gets a list of jobs in a project.
@@ -184,7 +184,7 @@ func (s *JobsService) GetJobArtifacts(pid interface{}, jobID int, options ...Opt
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/jobs.html#download-the-artifacts-file
 type DownloadArtifactsFileOptions struct {
-	Job *string `url:"job" json:"job"`
+	Job *string `url:"job" bson:"job" json:"job"`
 }
 
 // DownloadArtifactsFile download the artifacts file from the given
